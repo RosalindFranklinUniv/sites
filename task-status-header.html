@@ -24,6 +24,7 @@
       display:flex;
       justify-content:center;
       padding: 24px 16px;
+      touch-action: pan-y;
     }
     main { width: min(980px, 100%); }
     .status-card {
@@ -118,8 +119,8 @@
         <span>Scheduler looks healthy</span>
       </div>
       <div class="status-lines">
-        <div class="status-line">Last execution: 2025-12-30 10:57:34 PM (0.0 hours ago). Next pending task: 2025-12-30 11:00:00 PM (on time).</div>
-        <div class="status-line muted">Data last updated: 12/30 10:58:38 PM</div>
+        <div class="status-line">Last execution: 2025-12-30 11:00:04 PM (0.0 hours ago). Next pending task: 2025-12-30 11:00:00 PM (on time).</div>
+        <div class="status-line muted">Data last updated: 12/30 11:02:15 PM</div>
       </div>
       <div class="section-card failed-section">
         <div class="section-title">Failed tasks</div>
@@ -141,5 +142,35 @@
       </div>
     </section>
   </main>
+  <script>
+    (() => {
+      let startY = null;
+      let pulling = false;
+      const THRESHOLD = 60; // pixels pulled down from the top
+
+      window.addEventListener("touchstart", (e) => {
+        if (window.scrollY === 0) {
+          startY = e.touches[0].clientY;
+          pulling = true;
+        } else {
+          pulling = false;
+        }
+      }, { passive: true });
+
+      window.addEventListener("touchmove", (e) => {
+        if (!pulling || startY === null) return;
+        const delta = e.touches[0].clientY - startY;
+        if (delta > THRESHOLD) {
+          pulling = false;
+          location.reload();
+        }
+      }, { passive: true });
+
+      window.addEventListener("touchend", () => {
+        startY = null;
+        pulling = false;
+      });
+    })();
+  </script>
 </body>
 </html>
