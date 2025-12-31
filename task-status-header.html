@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Status Header</title>
+  <style>
+    :root {
+      --bg:#0b0f0c;
+      --card:#0f1a11;
+      --border:#1f3324;
+      --text:#dbe9dc;
+      --muted:#9bb39f;
+      --accent:#3dc16a;
+      --shadow:0 14px 34px rgba(0,0,0,0.28);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin:0;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display:flex;
+      justify-content:center;
+      padding: 24px 16px;
+    }
+    main { width: min(980px, 100%); }
+    .status-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+    }
+    .status-header {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      flex-shrink: 0;
+    }
+    .status-lines {
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      line-height: 1.5;
+    }
+    .status-line { color: var(--text); }
+    .muted { color: var(--muted); }
+    .section-card {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .failed-section {
+      border-top-color: #5b1a1a;
+      background: linear-gradient(135deg, rgba(128,0,0,0.09), transparent);
+      border-radius: 10px;
+      padding: 12px;
+      margin: 14px -6px -6px;
+    }
+    .section-title {
+      font-weight: 700;
+      margin: 0 0 8px;
+      color: var(--text);
+    }
+    .failed-section .section-title {
+      color: #ff6b6b;
+    }
+    .failed-note {
+      margin: 0 0 8px;
+      font-size: 12px;
+    }
+    .tasks-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .tasks-table th,
+    .tasks-table td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .tasks-table th {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .tasks-table td.desc {
+      color: var(--muted);
+    }
+    .source {
+      margin-top:10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    @media (max-width: 640px) {
+      body { padding: 14px 10px; }
+      .status-card { padding: 12px; }
+      .status-header { font-size: 15px; }
+      .status-lines { font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="status-card">
+      <div class="status-header">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Scheduler looks healthy</span>
+      </div>
+      <div class="status-lines">
+        <div class="status-line">Last execution: 2025-12-30 10:29:11 PM (0.1 hours ago). Next pending task: 2025-12-30 10:31:00 PM (on time).</div>
+        <div class="status-line muted">Data last updated: 12/30 10:35:22 PM</div>
+      </div>
+      <div class="source">Source: <a href="https://dataintegrations.rosalindfranklin.edu/task-status">https://dataintegrations.rosalindfranklin.edu/task-status</a></div>
+      <div class="section-card failed-section">
+        <div class="section-title">Failed tasks</div>
+        <p class="muted failed-note">Showing latest 4 failed task(s).</p>
+<table class="tasks-table" aria-label="Failed tasks">
+  <thead>
+    <tr>
+      <th>Cmd #</th>
+      <th>Task</th>
+      <th>Scheduled</th>
+      <th>Executed</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+        <tr><td>1107</td><td>Fitness Waiver Service</td><td>2025-12-30 02:37:00 AM</td><td>2025-12-30 03:00:12 PM</td><td class="desc">Processes fitness waiver forms from Jotform</td></tr>
+        <tr><td>1107</td><td>Fitness Waiver Service</td><td>2025-12-29 02:37:00 AM</td><td>2025-12-29 04:23:01 AM</td><td class="desc">Processes fitness waiver forms from Jotform</td></tr>
+        <tr><td>1107</td><td>Fitness Waiver Service</td><td>2025-12-28 02:37:00 AM</td><td>2025-12-28 04:22:57 AM</td><td class="desc">Processes fitness waiver forms from Jotform</td></tr>
+        <tr><td>1107</td><td>Fitness Waiver Service</td><td>2025-12-27 02:37:00 AM</td><td>2025-12-27 04:22:19 AM</td><td class="desc">Processes fitness waiver forms from Jotform</td></tr>
+  </tbody>
+</table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
