@@ -33,26 +33,25 @@
     main { width: min(980px, 100%); }
     .status-card {
       background: var(--card);
-      border: 1px solid var(--border);
+      border: none;
       border-radius: 12px;
       padding: 14px 16px;
       box-shadow: var(--shadow);
     }
     .status-card.attention {
       background: var(--card);
-      border-color: var(--border);
+      border: none;
     }
     .status-header {
       display:flex;
       align-items:center;
       gap:10px;
-      font-weight: 700;
       color: var(--text);
       margin-bottom: 6px;
       font-size: 24px;
       line-height: 1.3;
     }
-    .status-label { font-size: 24px; font-weight: 700; }
+    .status-label { font-size: 24px; font-weight: 400; }
     .status-label.ok { color: var(--accent); }
     .status-label.attention, .status-label.stale { color: var(--alert-accent); }
     .status-lines {
@@ -86,12 +85,12 @@
     .section-card {
       margin-top: 14px;
       padding-top: 12px;
-      border-top: 1px solid var(--border);
+      border-top: none;
     }
     .failed-section {
       border-top-color: var(--border);
       border-radius: 10px;
-      padding: 12px 0 0;
+      padding: 0;
       margin: 14px 0 0;
     }
     .section-title {
@@ -99,6 +98,7 @@
       margin: 0 0 8px;
       color: var(--text);
     }
+    .failed-section .section-title { color: var(--alert-accent); }
     .tasks-table {
       width: 100%;
       border-collapse: collapse;
@@ -108,7 +108,7 @@
     .tasks-table td {
       padding: 8px 10px;
       text-align: left;
-      border-bottom: 1px solid var(--border);
+      border-bottom: none;
     }
     .tasks-table th {
       color: var(--muted);
@@ -136,7 +136,7 @@
       </div>
       <div class="status-lines">
         <div class="status-line"></div>
-        <div class="status-line muted time-line"><span class="time-row fresh">Updated: <span id="last-updated" data-updated-iso="2026-01-01T12:20:08.772096">01/01 12:20:08 PM</span></span><span class="time-row fresh">Time: <span id="current-time">01/01 12:20:08 PM</span></span><span class="time-row fresh">Difference: <span id="time-diff">00:00:00</span></span></div>
+        <div class="status-line muted time-line"><span class="time-row fresh">Updated: <span id="last-updated" data-updated-iso="2026-01-01T12:22:42.238480">01/01 12:22:42 PM</span></span><span class="time-row fresh">Time: <span id="current-time">01/01 12:22:42 PM</span></span><span class="time-row fresh">Difference: <span id="time-diff">00:00:00</span></span></div>
       </div>
       <div class="section-card failed-section">
         <div class="section-title">Failed tasks</div>
