@@ -149,7 +149,7 @@
       </div>
       <div class="status-lines">
         <div class="status-line">All tasks are on schedule.</div>
-        <div class="status-line muted time-line"><span id="freshness-dot" class="updated-dot fresh" aria-label="Data fresh indicator"></span> Data last updated: <span id="last-updated" data-updated-iso="2026-01-01T11:00:07.552960">01/01 11:00:07 AM</span> | Current time: <span id="current-time">01/01 11:00:07 AM</span></div>
+        <div class="status-line muted time-line"><span id="freshness-dot" class="updated-dot fresh" aria-label="Data fresh indicator"></span> Updated: <span id="last-updated" data-updated-iso="2026-01-01T11:53:57.635313">01/01 11:53:57 AM</span> | Time: <span id="current-time">01/01 11:53:57 AM</span> | Delta: <span id="time-diff">00:00:00</span></div>
       </div>
       <div class="section-card failed-section">
         <div class="section-title">Failed tasks</div>
@@ -174,6 +174,10 @@
   <script>
     (() => {
       const el = document.getElementById("current-time");
+      const updatedEl = document.getElementById("last-updated");
+      const diffEl = document.getElementById("time-diff");
+      const updatedIso = updatedEl ? updatedEl.getAttribute("data-updated-iso") : null;
+      const updatedDate = updatedIso ? new Date(updatedIso) : null;
       if (!el) return;
       const formatTime = (d) => {
         const pad = (n) => String(n).padStart(2, "0");
@@ -185,7 +189,22 @@
         hours = hours === 0 ? 12 : hours;
         return `${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(hours)}:${minutes}:${seconds} ${ampm}`;
       };
-      const tick = () => { el.textContent = formatTime(new Date()); };
+      const formatDelta = (msDiff) => {
+        const totalSeconds = Math.max(0, Math.floor(msDiff / 1000));
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        const pad = (n) => String(n).padStart(2, "0");
+        return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      };
+      const tick = () => {
+        const now = new Date();
+        el.textContent = formatTime(now);
+        if (diffEl && updatedDate && !isNaN(updatedDate.getTime())) {
+          const diffMs = Math.abs(now - updatedDate);
+          diffEl.textContent = `Delta: ${formatDelta(diffMs)}`;
+        }
+      };
       tick();
       setInterval(tick, 1000);
     })();
