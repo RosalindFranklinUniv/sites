@@ -69,7 +69,24 @@
       line-height: 1.5;
     }
     .status-line { color: var(--text); }
+    .status-line.time-line { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
     .muted { color: var(--muted); }
+    .updated-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display:inline-block;
+      box-shadow: 0 0 8px var(--border);
+      flex-shrink: 0;
+    }
+    .updated-dot.fresh {
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+    .updated-dot.stale {
+      background: var(--alert-accent);
+      box-shadow: 0 0 8px rgba(255,107,107,0.9);
+    }
     .section-card {
       margin-top: 14px;
       padding-top: 12px;
@@ -132,7 +149,7 @@
       </div>
       <div class="status-lines">
         <div class="status-line">Execution lag detected. Please review pending queue and recent runs in the dashboard.</div>
-        <div class="status-line muted">Data last updated: 01/01 04:02:19 AM | Current time: <span id="current-time">01/01 04:02:19 AM</span></div>
+        <div class="status-line muted time-line"><span class="updated-dot fresh" aria-label="Data fresh indicator"></span> Data last updated: 01/01 04:05:12 AM | Current time: <span id="current-time">01/01 04:05:13 AM</span></div>
       </div>
       <div class="section-card failed-section">
         <div class="section-title">Failed tasks</div>
