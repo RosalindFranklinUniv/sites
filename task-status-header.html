@@ -149,7 +149,7 @@
       </div>
       <div class="status-lines">
         <div class="status-line">All tasks are on schedule.</div>
-        <div class="status-line muted time-line"><span id="freshness-dot" class="updated-dot fresh" aria-label="Data fresh indicator"></span> Updated: <span id="last-updated" data-updated-iso="2026-01-01T11:53:57.635313">01/01 11:53:57 AM</span> | Time: <span id="current-time">01/01 11:53:57 AM</span> | Delta: <span id="time-diff">00:00:00</span></div>
+        <div class="status-line muted time-line"><span id="freshness-dot" class="updated-dot fresh" aria-label="Data fresh indicator"></span> Updated: <span id="last-updated" data-updated-iso="2026-01-01T11:58:05.305169">01/01 11:58:05 AM</span> | Time: <span id="current-time">01/01 11:58:06 AM</span> | Difference: <span id="time-diff">00:00:00</span></div>
       </div>
       <div class="section-card failed-section">
         <div class="section-title">Failed tasks</div>
@@ -202,7 +202,7 @@
         el.textContent = formatTime(now);
         if (diffEl && updatedDate && !isNaN(updatedDate.getTime())) {
           const diffMs = Math.abs(now - updatedDate);
-          diffEl.textContent = `Delta: ${formatDelta(diffMs)}`;
+          diffEl.textContent = formatDelta(diffMs);
         }
       };
       tick();
