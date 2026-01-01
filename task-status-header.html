@@ -14,6 +14,9 @@
       --muted:#9bb39f;
       --accent:#3dc16a;
       --shadow:0 14px 34px rgba(0,0,0,0.28);
+      --alert-bg:#1b0a0a;
+      --alert-border:#5b1a1a;
+      --alert-accent:#ff6b6b;
     }
     * { box-sizing: border-box; }
     body {
@@ -35,6 +38,10 @@
       padding: 14px 16px;
       box-shadow: var(--shadow);
     }
+    .status-card.attention {
+      background: var(--alert-bg);
+      border-color: var(--alert-border);
+    }
     .status-header {
       display:flex;
       align-items:center;
@@ -50,6 +57,10 @@
       background: var(--accent);
       box-shadow: 0 0 8px var(--accent);
       flex-shrink: 0;
+    }
+    .dot.attention-dot {
+      background: var(--alert-accent);
+      box-shadow: 0 0 10px rgba(255,107,107,0.9);
     }
     .status-lines {
       display:flex;
@@ -114,14 +125,14 @@
 </head>
 <body>
   <main>
-    <section class="status-card">
+    <section class="status-card attention">
       <div class="status-header">
-        <span class="dot" aria-hidden="true"></span>
+        <span class="dot attention-dot" aria-hidden="true"></span>
         <span>Scheduler attention needed</span>
       </div>
       <div class="status-lines">
         <div class="status-line">Execution lag detected. Please review pending queue and recent runs in the dashboard.</div>
-        <div class="status-line muted">Data last updated: 01/01 03:52:46 AM</div>
+        <div class="status-line muted">Data last updated: 01/01 03:56:46 AM</div>
       </div>
       <div class="section-card failed-section">
         <div class="section-title">Failed tasks</div>
