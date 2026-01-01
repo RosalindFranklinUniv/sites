@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="refresh" content="1200">
+  <meta http-equiv="refresh" content="300">
   <title>Task Status Public</title>
   <style>
     :root {
@@ -72,8 +72,8 @@
     .status-line.time-line { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
     .muted { color: var(--muted); }
     .updated-dot {
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       display:inline-block;
       box-shadow: 0 0 8px var(--border);
@@ -149,7 +149,7 @@
       </div>
       <div class="status-lines">
         <div class="status-line">Execution lag detected. Please review pending queue and recent runs in the dashboard.</div>
-        <div class="status-line muted time-line"><span class="updated-dot fresh" aria-label="Data fresh indicator"></span> Data last updated: 01/01 04:05:12 AM | Current time: <span id="current-time">01/01 04:05:13 AM</span></div>
+        <div class="status-line muted time-line"><span id="freshness-dot" class="updated-dot fresh" aria-label="Data fresh indicator"></span> Data last updated: <span id="last-updated" data-updated-iso="2026-01-01T04:12:10.250976">01/01 04:12:10 AM</span> | Current time: <span id="current-time">01/01 04:12:10 AM</span></div>
       </div>
       <div class="section-card failed-section">
         <div class="section-title">Failed tasks</div>
@@ -188,6 +188,26 @@
       const tick = () => { el.textContent = formatTime(new Date()); };
       tick();
       setInterval(tick, 1000);
+    })();
+    (() => {
+      const dot = document.getElementById("freshness-dot");
+      const last = document.getElementById("last-updated");
+      if (!dot || !last) return;
+      const iso = last.getAttribute("data-updated-iso");
+      if (!iso) return;
+      const updated = new Date(iso);
+      if (isNaN(updated.getTime())) return;
+      const apply = () => {
+        const now = new Date();
+        const diffMs = now - updated;
+        const diffHours = diffMs / (1000 * 60 * 60);
+        const fresh = diffHours <= 1;
+        dot.classList.toggle("fresh", fresh);
+        dot.classList.toggle("stale", !fresh);
+        dot.setAttribute("aria-label", fresh ? "Data fresh indicator" : "Data stale indicator");
+      };
+      apply();
+      setInterval(apply, 10000);
     })();
     (() => {
       let startY = null;
