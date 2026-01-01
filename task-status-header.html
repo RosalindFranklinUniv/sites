@@ -49,7 +49,12 @@
       font-weight: 700;
       color: var(--text);
       margin-bottom: 6px;
+      font-size: 24px;
+      line-height: 1.3;
     }
+    .status-label { font-size: 24px; font-weight: 700; }
+    .status-label.ok { color: var(--accent); }
+    .status-label.attention, .status-label.stale { color: var(--alert-accent); }
     .status-lines {
       display:flex;
       flex-direction:column;
@@ -127,11 +132,11 @@
   <main>
     <section class="status-card">
       <div class="status-header">
-        <span>Scheduler looks healthy</span>
+        <span class="status-label ok">Scheduler looks healthy</span>
       </div>
       <div class="status-lines">
-        <div class="status-line">All tasks are on schedule.</div>
-        <div class="status-line muted time-line"><span class="time-row fresh">Updated: <span id="last-updated" data-updated-iso="2026-01-01T12:17:01.204743">01/01 12:17:01 PM</span></span><span class="time-row fresh">Time: <span id="current-time">01/01 12:17:01 PM</span></span><span class="time-row fresh">Difference: <span id="time-diff">00:00:00</span></span></div>
+        <div class="status-line"></div>
+        <div class="status-line muted time-line"><span class="time-row fresh">Updated: <span id="last-updated" data-updated-iso="2026-01-01T12:20:08.772096">01/01 12:20:08 PM</span></span><span class="time-row fresh">Time: <span id="current-time">01/01 12:20:08 PM</span></span><span class="time-row fresh">Difference: <span id="time-diff">00:00:00</span></span></div>
       </div>
       <div class="section-card failed-section">
         <div class="section-title">Failed tasks</div>
