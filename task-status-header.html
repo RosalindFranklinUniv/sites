@@ -132,7 +132,7 @@
       </div>
       <div class="status-lines">
         <div class="status-line">Execution lag detected. Please review pending queue and recent runs in the dashboard.</div>
-        <div class="status-line muted">Data last updated: 01/01 03:58:38 AM | Current time: 01/01 03:58:38 AM</div>
+        <div class="status-line muted">Data last updated: 01/01 04:02:19 AM | Current time: <span id="current-time">01/01 04:02:19 AM</span></div>
       </div>
       <div class="section-card failed-section">
         <div class="section-title">Failed tasks</div>
@@ -155,6 +155,23 @@
     </section>
   </main>
   <script>
+    (() => {
+      const el = document.getElementById("current-time");
+      if (!el) return;
+      const formatTime = (d) => {
+        const pad = (n) => String(n).padStart(2, "0");
+        let hours = d.getHours();
+        const minutes = pad(d.getMinutes());
+        const seconds = pad(d.getSeconds());
+        const ampm = hours >= 12 ? "PM" : "AM";
+        hours = hours % 12;
+        hours = hours === 0 ? 12 : hours;
+        return `${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(hours)}:${minutes}:${seconds} ${ampm}`;
+      };
+      const tick = () => { el.textContent = formatTime(new Date()); };
+      tick();
+      setInterval(tick, 1000);
+    })();
     (() => {
       let startY = null;
       let pulling = false;
