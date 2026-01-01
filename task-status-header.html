@@ -50,18 +50,6 @@
       color: var(--text);
       margin-bottom: 6px;
     }
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
-      flex-shrink: 0;
-    }
-    .dot.attention-dot {
-      background: var(--alert-accent);
-      box-shadow: 0 0 10px rgba(255,107,107,0.9);
-    }
     .status-lines {
       display:flex;
       flex-direction:column;
@@ -147,12 +135,11 @@
   <main>
     <section class="status-card">
       <div class="status-header">
-        <span class="dot" aria-hidden="true"></span>
         <span>Scheduler looks healthy</span>
       </div>
       <div class="status-lines">
         <div class="status-line">All tasks are on schedule.</div>
-        <div class="status-line muted time-line"><span id="freshness-dot" class="updated-dot fresh" aria-label="Data fresh indicator"></span><span class="time-row fresh">Updated: <span id="last-updated" data-updated-iso="2026-01-01T12:11:46.869770">01/01 12:11:46 PM</span></span><span class="time-row fresh">Time: <span id="current-time">01/01 12:11:47 PM</span></span><span class="time-row fresh">Difference: <span id="time-diff">00:00:00</span></span></div>
+        <div class="status-line muted time-line"><span class="time-row fresh">Updated: <span id="last-updated" data-updated-iso="2026-01-01T12:13:49.977578">01/01 12:13:49 PM</span></span><span class="time-row fresh">Time: <span id="current-time">01/01 12:13:50 PM</span></span><span class="time-row fresh">Difference: <span id="time-diff">00:00:00</span></span></div>
       </div>
       <div class="section-card failed-section">
         <div class="section-title">Failed tasks</div>
@@ -210,26 +197,6 @@
       };
       tick();
       setInterval(tick, 1000);
-    })();
-    (() => {
-      const dot = document.getElementById("freshness-dot");
-      const last = document.getElementById("last-updated");
-      if (!dot || !last) return;
-      const iso = last.getAttribute("data-updated-iso");
-      if (!iso) return;
-      const updated = new Date(iso);
-      if (isNaN(updated.getTime())) return;
-      const apply = () => {
-        const now = new Date();
-        const diffMs = now - updated;
-        const diffHours = diffMs / (1000 * 60 * 60);
-        const fresh = diffHours <= 1;
-        dot.classList.toggle("fresh", fresh);
-        dot.classList.toggle("stale", !fresh);
-        dot.setAttribute("aria-label", fresh ? "Data fresh indicator" : "Data stale indicator");
-      };
-      apply();
-      setInterval(apply, 10000);
     })();
     (() => {
       let startY = null;
