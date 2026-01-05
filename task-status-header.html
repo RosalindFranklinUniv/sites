@@ -137,7 +137,7 @@
     <section class="status-card">
       <div class="status-lines">
         
-        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-01-05T15:08:56.061298" style="display:none;">01/05 15:08:56</span><span class="time-row fresh"><span id="current-time">01/05 15:08:56</span></span><span class="time-row fresh"><span id="time-diff">00:00:00</span></span></div>
+        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-01-05T15:17:00.211986" style="display:none;">01/05 15:17:00</span><span class="time-row fresh"><span id="current-time">15:17:00</span></span><span class="time-row fresh"><span id="time-diff">00:00:00</span></span></div>
         <div class="status-line"><span class="status-label ok">01/05</span></div>
       </div>
 
@@ -156,7 +156,7 @@
         const hours = pad(d.getHours());
         const minutes = pad(d.getMinutes());
         const seconds = pad(d.getSeconds());
-        return `${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${hours}:${minutes}:${seconds}`;
+        return `${hours}:${minutes}:${seconds}`;
       };
       const formatDelta = (msDiff) => {
         const totalSeconds = Math.max(0, Math.floor(msDiff / 1000));
