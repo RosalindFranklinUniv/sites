@@ -12,7 +12,7 @@
       --border:#101010;
       --text:#b6c2b6;
       --muted:#7a847a;
-      --accent:#6f9f7f;
+      --accent:#7fbf90;
       --shadow:0 14px 34px rgba(0,0,0,0.18);
       --alert-bg:#120909;
       --alert-border:#2a1a1a;
@@ -61,8 +61,6 @@
       gap:6px;
       line-height: 1.5;
     }
-    .status-lines.fresh .status-line { color: var(--accent); }
-    .status-lines.stale .status-line { color: var(--alert-accent); }
     .status-line { color: var(--text); }
     .status-line.time-line { display:flex; flex-direction:column; gap:6px; font-size: 20px; line-height: 1.3; font-weight: 200; }
     .status-line.time-line .time-row { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
@@ -141,7 +139,7 @@
       </div>
       <div class="status-lines">
         
-        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-01-05T10:00:15.787542" style="display:none;">01/05 10:00:15 AM</span><span class="time-row fresh">Time: <span id="current-time">01/05 10:00:15 AM</span></span><span class="time-row fresh">Difference: <span id="time-diff">00:00:00</span></span></div>
+        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-01-05T10:11:54.166498" style="display:none;">01/05 10:11:54 AM</span><span class="time-row fresh">Time: <span id="current-time">01/05 10:11:54 AM</span></span><span class="time-row fresh">Difference: <span id="time-diff">00:00:00</span></span></div>
       </div>
       <div class="section-card failed-section">
         <div class="section-title">Failed tasks</div>
@@ -161,9 +159,6 @@
       const el = document.getElementById("current-time");
       const updatedEl = document.getElementById("last-updated");
       const diffEl = document.getElementById("time-diff");
-       const statusCard = document.querySelector(".status-card");
-       const statusLabel = document.querySelector(".status-label");
-       const statusLines = document.querySelector(".status-lines");
       const updatedIso = updatedEl ? updatedEl.getAttribute("data-updated-iso") : null;
       const updatedDate = updatedIso ? new Date(updatedIso) : null;
       if (!el) return;
@@ -191,24 +186,12 @@
         if (diffEl && updatedDate && !isNaN(updatedDate.getTime())) {
           const diffMs = Math.abs(now - updatedDate);
           diffEl.textContent = formatDelta(diffMs);
-          const isStale = diffMs > 60 * 60 * 1000;
+          const isStale = diffMs > 71 * 60 * 1000;
           const timeRows = document.querySelectorAll(".time-row");
           timeRows.forEach((row) => {
             row.classList.toggle("fresh", !isStale);
             row.classList.toggle("stale", isStale);
           });
-          if (statusLines) {
-            statusLines.classList.toggle("fresh", !isStale);
-            statusLines.classList.toggle("stale", isStale);
-          }
-          if (statusLabel) {
-            statusLabel.classList.toggle("ok", !isStale);
-            statusLabel.classList.toggle("stale", isStale);
-            statusLabel.classList.toggle("attention", isStale);
-          }
-          if (statusCard) {
-            statusCard.classList.toggle("attention", isStale);
-          }
         }
       };
       tick();
