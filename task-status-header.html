@@ -137,8 +137,8 @@
     <section class="status-card">
       <div class="status-lines">
         
-        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-01-05T15:00:08.474632" style="display:none;">01/05 15:00:08</span><span class="time-row fresh"><span id="current-time">01/05 15:00:08</span></span><span class="time-row fresh"><span id="time-diff">00:00:00</span></span></div>
-        <div class="status-line"><span class="status-label ok">OK</span></div>
+        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-01-05T15:08:56.061298" style="display:none;">01/05 15:08:56</span><span class="time-row fresh"><span id="current-time">01/05 15:08:56</span></span><span class="time-row fresh"><span id="time-diff">00:00:00</span></span></div>
+        <div class="status-line"><span class="status-label ok">01/05</span></div>
       </div>
 
     </section>
@@ -153,13 +153,10 @@
       if (!el) return;
       const formatTime = (d) => {
         const pad = (n) => String(n).padStart(2, "0");
-        let hours = d.getHours();
+        const hours = pad(d.getHours());
         const minutes = pad(d.getMinutes());
         const seconds = pad(d.getSeconds());
-        const ampm = hours >= 12 ? "PM" : "AM";
-        hours = hours % 12;
-        hours = hours === 0 ? 12 : hours;
-        return `${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(hours)}:${minutes}:${seconds} ${ampm}`;
+        return `${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${hours}:${minutes}:${seconds}`;
       };
       const formatDelta = (msDiff) => {
         const totalSeconds = Math.max(0, Math.floor(msDiff / 1000));
