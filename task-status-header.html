@@ -24,6 +24,7 @@
       font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
+      font-size: 48px;
       display:flex;
       justify-content:center;
       padding: 24px 16px;
@@ -48,10 +49,10 @@
       gap:10px;
       color: var(--text);
       margin-bottom: 6px;
-      font-size: 24px;
+      font-size: 72px;
       line-height: 1.3;
     }
-    .status-label { font-size: 20px; font-weight: 200; }
+    .status-label { font-size: 60px; font-weight: 200; }
     .status-label.ok { color: var(--accent); }
     .status-label.attention { color: #c0392b; }
     .status-label.stale { color: var(--alert-accent); }
@@ -62,7 +63,7 @@
       line-height: 1.5;
     }
     .status-line { color: var(--text); }
-    .status-line.time-line { display:flex; flex-direction:column; gap:6px; font-size: 20px; line-height: 1.3; font-weight: 200; }
+    .status-line.time-line { display:flex; flex-direction:column; gap:6px; font-size: 60px; line-height: 1.3; font-weight: 200; }
     .status-line.time-line .time-row { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
     .status-line.time-line .time-row.fresh { color: var(--accent); }
     .status-line.time-line .time-row.stale { color: var(--alert-accent); }
@@ -98,13 +99,13 @@
       font-weight: 200;
       margin: 0 0 8px;
       color: var(--text);
-      font-size: 20px;
+      font-size: 60px;
     }
     .failed-section .section-title { color: var(--alert-accent); }
     .tasks-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 13px;
+      font-size: 39px;
     }
     .tasks-table th,
     .tasks-table td {
@@ -116,7 +117,7 @@
     .tasks-table th {
       color: var(--muted);
       font-weight: 700;
-      font-size: 12px;
+      font-size: 36px;
       letter-spacing: 0.02em;
       text-transform: uppercase;
     }
@@ -126,8 +127,8 @@
     @media (max-width: 640px) {
       body { padding: 14px 10px; }
       .status-card { padding: 12px; }
-      .status-header { font-size: 15px; }
-      .status-lines { font-size: 13px; }
+      .status-header { font-size: 45px; }
+      .status-lines { font-size: 39px; }
     }
   </style>
 </head>
@@ -136,7 +137,7 @@
     <section class="status-card">
       <div class="status-lines">
         
-        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-01-05T14:11:46.632173" style="display:none;">01/05 02:11:46 PM</span><span class="time-row fresh"><span id="current-time">01/05 02:11:46 PM</span></span><span class="time-row fresh"><span id="time-diff">00:00:00</span></span></div>
+        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-01-05T14:49:36.653524" style="display:none;">01/05 02:49:36 PM</span><span class="time-row fresh"><span id="current-time">01/05 02:49:36 PM</span></span><span class="time-row fresh"><span id="time-diff">00:00:00</span></span></div>
         <div class="status-line"><span class="status-label ok">OK</span></div>
       </div>
 
