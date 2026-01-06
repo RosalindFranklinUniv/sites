@@ -138,7 +138,7 @@
       <div class="status-lines">
         <div class="status-line"><span class="status-label ok">Mo 01/05</span></div>
         
-        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-01-05T18:00:08.126464" style="display:none;">01/05 18:00:08</span><span class="time-row fresh"><span id="current-time">18:00:08</span></span><span class="time-row fresh"><span id="time-diff">00:00:00</span></span></div>
+        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-01-05T18:27:24.194725" style="display:none;">01/05 18:27:24</span><span class="time-row fresh"><span id="current-time">06:27 PM</span></span><span class="time-row fresh"><span id="time-diff">00:00:00</span></span></div>
       </div>
 
     </section>
@@ -153,10 +153,12 @@
       if (!el) return;
       const formatTime = (d) => {
         const pad = (n) => String(n).padStart(2, "0");
-        const hours = pad(d.getHours());
+        let hours = d.getHours();
         const minutes = pad(d.getMinutes());
-        const seconds = pad(d.getSeconds());
-        return `${hours}:${minutes}:${seconds}`;
+        const ampm = hours >= 12 ? "PM" : "AM";
+        hours = hours % 12;
+        hours = hours === 0 ? 12 : hours;
+        return `${pad(hours)}:${minutes} ${ampm}`;
       };
       const formatDelta = (msDiff) => {
         const totalSeconds = Math.max(0, Math.floor(msDiff / 1000));
