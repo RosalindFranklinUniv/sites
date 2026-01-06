@@ -63,7 +63,7 @@
       line-height: 1.15;
     }
     .status-line { color: var(--text); }
-    .status-line.time-line { display:flex; flex-direction:column; gap:1px; font-size: 50px; line-height: 1.1; font-weight: 200; }
+    .status-line.time-line { display:flex; flex-direction:column; gap:1px; font-size: 100px; line-height: 1.05; font-weight: 200; }
     .status-line.time-line .time-row { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
     .status-line.time-line .time-row.fresh { color: var(--accent); }
     .status-line.time-line .time-row.stale { color: var(--alert-accent); }
@@ -137,7 +137,7 @@
     <section class="status-card">
       <div class="status-lines">
         
-        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-01-05T18:29:59.362971" style="display:none;">01/05 18:29:59</span><span class="time-row fresh"><span id="current-time">06:29 PM</span></span><span class="time-row fresh"><span id="time-diff">00:00:00</span></span></div>
+        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-01-05T18:46:05.987345" style="display:none;">01/05 18:46:05</span><span class="time-row fresh"><span id="current-time">18:46</span></span><span class="time-row fresh"><span id="time-diff">00:00:00</span></span></div>
         <div class="status-line"><span class="status-label ok">Mo 01/05</span></div>
       </div>
 
@@ -153,12 +153,9 @@
       if (!el) return;
       const formatTime = (d) => {
         const pad = (n) => String(n).padStart(2, "0");
-        let hours = d.getHours();
+        const hours = pad(d.getHours());
         const minutes = pad(d.getMinutes());
-        const ampm = hours >= 12 ? "PM" : "AM";
-        hours = hours % 12;
-        hours = hours === 0 ? 12 : hours;
-        return `${pad(hours)}:${minutes} ${ampm}`;
+        return `${hours}:${minutes}`;
       };
       const formatDelta = (msDiff) => {
         const totalSeconds = Math.max(0, Math.floor(msDiff / 1000));
