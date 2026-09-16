@@ -137,7 +137,7 @@
     <section class="status-card">
       <div class="status-lines">
         
-        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-09-16T15:55:04.890320" style="display:none;">09/16 15:55:04</span><span class="time-row fresh"><span id="current-time">03:55 pm</span></span></div>
+        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-09-16T16:00:06.327679" style="display:none;">09/16 16:00:06</span><span class="time-row fresh"><span id="current-time">16:00:06</span></span></div>
         <div class="status-line"><span class="status-label ok">we 09/16</span></div>
       </div>
 
@@ -152,12 +152,10 @@
       if (!el) return;
       const formatTime = (d) => {
         const pad = (n) => String(n).padStart(2, "0");
-        let hours = d.getHours();
+        const hours = pad(d.getHours());
         const minutes = pad(d.getMinutes());
-        const ampm = hours >= 12 ? "pm" : "am";
-        hours = hours % 12;
-        hours = hours === 0 ? 12 : hours;
-        return `${pad(hours)}:${minutes} ${ampm}`;
+        const seconds = pad(d.getSeconds());
+        return `${hours}:${minutes}:${seconds}`;
       };
       const tick = () => {
         const now = new Date();
