@@ -94,7 +94,7 @@
 </head>
 <body>
       <main>
-    <section class="status-card">
+    <section class="status-card" data-overall-ok="true">
       <div class="status-lines">
         
         <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-09-16T16:34:38.915908" style="display:none;">09/16 16:34:38</span><span class="time-row fresh"><span id="current-time">16:34:40</span></span></div>
@@ -106,6 +106,8 @@
     (() => {
       const el = document.getElementById("current-time");
       const updatedEl = document.getElementById("last-updated");
+      const sectionEl = document.querySelector("[data-overall-ok]");
+      const overallOk = sectionEl ? sectionEl.getAttribute("data-overall-ok") === "true" : true;
       const updatedIso = updatedEl ? updatedEl.getAttribute("data-updated-iso") : null;
       const updatedDate = updatedIso ? new Date(updatedIso) : null;
       if (!el) return;
@@ -119,15 +121,13 @@
       const tick = () => {
         const now = new Date();
         el.textContent = formatTime(now);
-        if (updatedDate && !isNaN(updatedDate.getTime())) {
-          const diffMs = Math.abs(now - updatedDate);
-          const isStale = diffMs > 71 * 60 * 1000;
-          const timeRows = document.querySelectorAll(".time-row");
-          timeRows.forEach((row) => {
-            row.classList.toggle("fresh", !isStale);
-            row.classList.toggle("stale", isStale);
-          });
-        }
+        const diffMs = updatedDate && !isNaN(updatedDate.getTime()) ? Math.abs(now - updatedDate) : 0;
+        const isStale = !overallOk || diffMs > 71 * 60 * 1000;
+        const timeRows = document.querySelectorAll(".time-row");
+        timeRows.forEach((row) => {
+          row.classList.toggle("fresh", !isStale);
+          row.classList.toggle("stale", isStale);
+        });
       };
       tick();
       setInterval(tick, 1000);
