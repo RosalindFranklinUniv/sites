@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="refresh" content="300">
   <title>Task Status Public</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&family=IBM+Plex+Mono:wght@400;700&display=swap">
   <style>
     :root {
       --bg:#000000;
@@ -18,14 +17,17 @@
       --alert-bg:#120909;
       --alert-border:#2a1a1a;
       --alert-accent:#c0392b;
+      --alert-glow:#ff6b57;
+      --seg-on:#0a1c5e;
+      --seg-on-2:#173285;
     }
     * { box-sizing: border-box; }
     body {
       margin:0;
-      font-family: "VT323", "IBM Plex Mono", "Courier New", monospace;
+      font-family: "IBM Plex Mono", "Courier New", "Lucida Console", monospace;
       background: var(--bg);
       color: var(--text);
-      font-size: 28px;
+      font-size: 24px;
       display:flex;
       justify-content:center;
       padding: 0px 10px;
@@ -60,11 +62,54 @@
       line-height: 1.15;
     }
     .status-line { color: var(--text); }
-    .status-line.time-line { display:flex; flex-direction:column; gap:1px; font-size: 160px; line-height: 1; font-weight: 400; letter-spacing: 0.03em; font-family: "VT323", monospace; }
-    .status-line.time-line .time-row { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
-    .status-line.time-line .time-row.fresh { color: var(--accent); }
-    .status-line.time-line .time-row.stale { color: var(--alert-accent); }
+    .status-line.time-line { display:flex; flex-direction:column; gap:1px; }
+    .status-line.time-line .time-row {
+      display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+      --on:var(--seg-on); --on2:var(--seg-on-2);
+    }
+    .status-line.time-line .time-row.stale { --on:var(--alert-accent); --on2:var(--alert-glow); }
     .muted { color: var(--muted); }
+
+    .clock { display:flex; align-items:center; gap:14px; }
+    .digit-pair { display:flex; gap:10px; }
+    .digit { position:relative; display:inline-block; width:70px; height:130px; }
+    .seg {
+      position:absolute;
+      background:transparent;
+      transition:background 120ms linear, box-shadow 120ms linear;
+    }
+    .seg.on {
+      background:var(--on);
+      box-shadow:0 0 6px var(--on2), 0 0 18px var(--on2), 0 0 34px var(--on);
+    }
+    .seg-h, .seg-a, .seg-g, .seg-d {
+      left:8px; width:54px; height:14px;
+      clip-path:polygon(14% 0%, 86% 0%, 100% 50%, 86% 100%, 14% 100%, 0% 50%);
+    }
+    .seg-a { top:0; }
+    .seg-g { top:58px; }
+    .seg-d { top:116px; }
+    .seg-v {
+      width:14px; height:54px;
+      clip-path:polygon(0% 14%, 50% 0%, 100% 14%, 100% 86%, 50% 100%, 0% 86%);
+    }
+    .seg-f { left:0; top:10px; }
+    .seg-b { left:56px; top:10px; }
+    .seg-e { left:0; top:66px; }
+    .seg-c { left:56px; top:66px; }
+    .colon {
+      display:inline-flex; flex-direction:column; justify-content:center;
+      gap:22px; height:130px; padding:0 2px;
+    }
+    .colon .dot {
+      width:14px; height:14px;
+      background:var(--on);
+      clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      box-shadow:0 0 6px var(--on2), 0 0 16px var(--on2), 0 0 30px var(--on);
+    }
+    @media (max-width: 640px) {
+      .clock { transform: scale(0.72); transform-origin: left center; }
+    }
     .updated-dot {
       width: 12px;
       height: 12px;
@@ -94,29 +139,69 @@
     <section class="status-card" data-overall-ok="true">
       <div class="status-lines">
         
-        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-09-17T15:00:08.961786" style="display:none;">09/17 15:00:08</span><span class="time-row fresh"><span id="current-time">3:00</span></span></div>
+        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-09-17T15:16:33.690760" style="display:none;">09/17 15:16:33</span><span class="time-row fresh"><span class="clock" id="segment-clock"><span class="digit-pair" id="hoursDigits"></span><span class="colon"><span class="dot"></span><span class="dot"></span></span><span class="digit-pair" id="minsDigits"></span></span></span></div>
       </div>
     </section>
   </main>
   <script>
     (() => {
-      const el = document.getElementById("current-time");
+      const SEG_MAP = {
+        0:"abcdef", 1:"bc", 2:"abged", 3:"abgcd", 4:"fgbc",
+        5:"afgcd", 6:"afgedc", 7:"abc", 8:"abcdefg", 9:"abcdfg"
+      };
+      const ALL_SEGS = ["a","b","c","d","e","f","g"];
+      const HORIZ = new Set(["a","g","d"]);
+
+      const buildDigit = () => {
+        const d = document.createElement("span");
+        d.className = "digit";
+        ALL_SEGS.forEach((s) => {
+          const seg = document.createElement("span");
+          seg.className = "seg seg-" + s + (HORIZ.has(s) ? " seg-h" : " seg-v");
+          seg.dataset.seg = s;
+          d.appendChild(seg);
+        });
+        return d;
+      };
+
+      const setDigit = (el, val) => {
+        const lit = SEG_MAP[val] || "";
+        el.querySelectorAll(".seg").forEach((seg) => {
+          seg.classList.toggle("on", lit.includes(seg.dataset.seg));
+        });
+      };
+
+      const mountPair = (id) => {
+        const container = document.getElementById(id);
+        if (!container) return null;
+        const d1 = buildDigit();
+        const d2 = buildDigit();
+        container.appendChild(d1);
+        container.appendChild(d2);
+        return [d1, d2];
+      };
+
+      const hourDigits = mountPair("hoursDigits");
+      const minDigits = mountPair("minsDigits");
+
       const updatedEl = document.getElementById("last-updated");
       const sectionEl = document.querySelector("[data-overall-ok]");
       const overallOk = sectionEl ? sectionEl.getAttribute("data-overall-ok") === "true" : true;
       const updatedIso = updatedEl ? updatedEl.getAttribute("data-updated-iso") : null;
       const updatedDate = updatedIso ? new Date(updatedIso) : null;
-      if (!el) return;
-      const formatTime = (d) => {
-        const pad = (n) => String(n).padStart(2, "0");
-        let hours = d.getHours() % 12;
-        hours = hours === 0 ? 12 : hours;
-        const minutes = pad(d.getMinutes());
-        return `${hours}:${minutes}`;
-      };
+      if (!hourDigits || !minDigits) return;
+
       const tick = () => {
         const now = new Date();
-        el.textContent = formatTime(now);
+        let hours = now.getHours() % 12;
+        hours = hours === 0 ? 12 : hours;
+        const hh = String(hours).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        setDigit(hourDigits[0], +hh[0]);
+        setDigit(hourDigits[1], +hh[1]);
+        setDigit(minDigits[0], +mm[0]);
+        setDigit(minDigits[1], +mm[1]);
+
         const diffMs = updatedDate && !isNaN(updatedDate.getTime()) ? Math.abs(now - updatedDate) : 0;
         const isStale = !overallOk || diffMs > 71 * 60 * 1000;
         const timeRows = document.querySelectorAll(".time-row");
