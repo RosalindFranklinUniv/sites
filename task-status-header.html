@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="refresh" content="300">
   <title>Task Status Public</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap">
   <style>
     :root {
       --bg:#000000;
@@ -21,7 +22,7 @@
     * { box-sizing: border-box; }
     body {
       margin:0;
-      font-family: "Courier New", "Lucida Sans Typewriter", "Lucida Console", monospace;
+      font-family: "IBM Plex Mono", "Courier New", "Lucida Console", monospace;
       background: var(--bg);
       color: var(--text);
       font-size: 24px;
@@ -59,7 +60,7 @@
       line-height: 1.15;
     }
     .status-line { color: var(--text); }
-    .status-line.time-line { display:flex; flex-direction:column; gap:1px; font-size: 77px; line-height: 1.05; font-weight: 200; }
+    .status-line.time-line { display:flex; flex-direction:column; gap:1px; font-size: 77px; line-height: 1.05; font-weight: 700; }
     .status-line.time-line .time-row { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
     .status-line.time-line .time-row.fresh { color: var(--accent); }
     .status-line.time-line .time-row.stale { color: var(--alert-accent); }
@@ -93,7 +94,7 @@
     <section class="status-card" data-overall-ok="true">
       <div class="status-lines">
         
-        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-09-16T20:00:10.909491" style="display:none;">09/16 20:00:10</span><span class="time-row fresh"><span id="current-time">08:39pm</span></span></div>
+        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-09-16T20:00:10.909491" style="display:none;">09/16 20:00:10</span><span class="time-row fresh"><span id="current-time">8:39</span></span></div>
       </div>
     </section>
   </main>
@@ -108,11 +109,10 @@
       if (!el) return;
       const formatTime = (d) => {
         const pad = (n) => String(n).padStart(2, "0");
-        const ampm = d.getHours() >= 12 ? "pm" : "am";
         let hours = d.getHours() % 12;
         hours = hours === 0 ? 12 : hours;
         const minutes = pad(d.getMinutes());
-        return `${pad(hours)}:${minutes}${ampm}`;
+        return `${hours}:${minutes}`;
       };
       const tick = () => {
         const now = new Date();
