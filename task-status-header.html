@@ -139,7 +139,7 @@
     <section class="status-card" data-overall-ok="true">
       <div class="status-lines">
         
-        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-09-17T15:16:33.690760" style="display:none;">09/17 15:16:33</span><span class="time-row fresh"><span class="clock" id="segment-clock"><span class="digit-pair" id="hoursDigits"></span><span class="colon"><span class="dot"></span><span class="dot"></span></span><span class="digit-pair" id="minsDigits"></span></span></span></div>
+        <div class="status-line muted time-line"><span id="last-updated" data-updated-iso="2026-09-17T15:18:53.211505" style="display:none;">09/17 15:18:53</span><span class="time-row fresh"><span class="clock" id="segment-clock"><span class="digit-pair" id="hoursDigits"></span><span class="colon"><span class="dot"></span><span class="dot"></span></span><span class="digit-pair" id="minsDigits"></span></span></span></div>
       </div>
     </section>
   </main>
@@ -165,7 +165,7 @@
       };
 
       const setDigit = (el, val) => {
-        const lit = SEG_MAP[val] || "";
+        const lit = val === null ? "" : SEG_MAP[val] || "";
         el.querySelectorAll(".seg").forEach((seg) => {
           seg.classList.toggle("on", lit.includes(seg.dataset.seg));
         });
@@ -197,7 +197,7 @@
         hours = hours === 0 ? 12 : hours;
         const hh = String(hours).padStart(2, "0");
         const mm = String(now.getMinutes()).padStart(2, "0");
-        setDigit(hourDigits[0], +hh[0]);
+        setDigit(hourDigits[0], hh[0] === "0" ? null : +hh[0]);
         setDigit(hourDigits[1], +hh[1]);
         setDigit(minDigits[0], +mm[0]);
         setDigit(minDigits[1], +mm[1]);
